@@ -17,6 +17,8 @@ def logInToPage(u, p, t):
     global driver
     driver = webdriver.Chrome()
     driver.get("https://rec.carleton.ca/Program/GetProducts?classification=d17305dd-be9c-4889-a554-336cb4fb78e0&category=38f6aaac-d0bd-448c-9069-6523b8bb73d9")
+    print()
+    print("Browser lauched, don't minimize it.")
     #press Log In
     logIn1 = driver.find_element_by_id("loginLink")
     logIn1.click()
@@ -38,8 +40,8 @@ def logInToPage(u, p, t):
         selectDay(day, t)
     else:
         driver.quit()
-        time.sleep(3)
-        screen.mainloop()        
+        print("You put in invalid credentials, please try again")    
+        exit()
 
 def selectDay(d, t):
     time.sleep(.25)
