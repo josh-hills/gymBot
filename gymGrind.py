@@ -32,7 +32,6 @@ def logInToPage(u, p, t):
     passBox.send_keys(p)
 
     #login
-
     loginButton = driver.find_element_by_id("submitButton")
     loginButton.click()
     if(len(driver.find_elements_by_id("errorText")) <= 0):
@@ -40,20 +39,8 @@ def logInToPage(u, p, t):
     else:
         driver.quit()
         time.sleep(3)
-        errorTxt.config(text = "Invalid login details, please try again")
+        screen.mainloop()        
 
-
-    
-
-
-# btn btn-primary     .btn-primary
-# btn btn-primary btn-block disableOnChoice
-
-# btnAccept
-
-# radio-inline x 3    rbtnYes
-# btn btn-primary
-# btn btn-primary allow-navigation
 def selectDay(d, t):
     time.sleep(.25)
     if driver.find_element_by_id("gdpr-cookie-accept"):
@@ -75,7 +62,6 @@ def selectDay(d, t):
 
 def finishRegistration(t):
     refresh(t)
-    
     timeBtn = driver.find_elements_by_css_selector(".btn-primary")
     numTimes = len(timeBtn)-3
     if numTimes >= 0:
@@ -138,6 +124,10 @@ def runIt():
     seconds = switcher.get(myTime)*3600
     now = datetime.datetime.now()
     secondsSinceMidnight = (now - now.replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
+    screen.destroy()
+    timeLeft = convert(seconds-secondsSinceMidnight)
+    
+    print("Bot will launch in ",timeLeft,"Please leave this terminal open.")
     if(seconds-secondsSinceMidnight>300):
         mySleep(seconds-300)
     logInToPage(myUsername, myPassword, seconds)
@@ -145,10 +135,17 @@ def runIt():
 def mySleep(t):
     now = datetime.datetime.now()
     secondsSinceMidnight = (now - now.replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
-    print(t)
-    print(secondsSinceMidnight)
     if(t-secondsSinceMidnight > 0):
         time.sleep(t-secondsSinceMidnight)
+
+def convert(seconds): 
+    seconds = seconds % (24 * 3600) 
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+      
+    return "%d:%02d:%02d." % (hour, minutes, seconds) 
 
 
 screen = tk.Tk()
